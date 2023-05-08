@@ -12,7 +12,7 @@ Formulaire Javascript intéractif composé de listes déroulantes (select->optio
 
 ## Contraintes techniques
 
-Il est demander d'implémenter le formulaire avec:
+Il est demandé d'implémenter le formulaire avec:
 
 - Le mécanisme des promesses combiné à la fonction Fetch
 - L'évènement "onchange" sur l'objet de type élément du DOM qui correspond à la balise "select"
@@ -36,10 +36,9 @@ Il est demander d'implémenter le formulaire avec:
 - [ ] :dart: USA004 - Afficher 3 informations concernant la commune.
       Au clic sur le nom de la commune dans la liste déroulante, l'information concernant la commune est récupérée.
       L'interface affiche alors dans la zone d'affichage dédiée :
-	- le nom
-	- le nombre d'habitants
-	- le code postal
-
+  - le nom
+  - le nombre d'habitants
+  - le code postal
 
 Endpoint : "https://geo.api.gouv.fr/communes/xxxxx"
 Nota : il faut remplacer xxxxx par le code de la commune
