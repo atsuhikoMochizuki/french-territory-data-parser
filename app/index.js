@@ -1,14 +1,22 @@
+// FRENCH-TERRITORY-DATA-PARSER
+// by Atsuhiko Mochizuki
+// Avril 2023
+// https://github.com/atsuhikoMochizuki/french-territory-data-parser.git
+
 // constants
 // ============================================
 const REGIONS = "regions";
 const API_GET_REGIONS = "https://geo.api.gouv.fr/regions";
 
+// DOM Elements
+// ============================================
 let regions = document.getElementById("regions");
 let departments = document.getElementById("departments");
 let communes = document.getElementById("communes");
 let communeInformationsArea = document.getElementById("communeInformations");
 
-//Affectation des callbacks aux signaux
+//Callbacks affectations
+// ============================================
 regions.addEventListener("change", (event) => {
   region_initialize(regions, departments, communes, communeInformationsArea);
   let request =
@@ -61,15 +69,18 @@ communes.addEventListener("change", (event) => {
       return res.json();
     })
     .then((datas) => {
+      console.log(datas);
       let datasToDisplay = `
       ${datas.nom}
       Population : ${datas.population}
-      Code postal : ${datas.code}
+      Code postal : ${datas.codesPostaux}
       `;
       communeInformationsArea.value = datasToDisplay;
     });
 });
 
+// Form resets
+// ============================================
 region_initialize(regions, departments, communes, communeInformationsArea);
 
 function region_initialize(
@@ -114,31 +125,10 @@ function department_initialize(
   communesElem,
   communeInformationsAreaElem
 ) {
-  //   document.querySelector("#departments").innerHTML = "";
-  //   let promptDepartments = document.createElement("option");
-  //   promptDepartments.textContent = "Choisissez un département...";
-  //   departmentsElem.appendChild(promptDepartments).disabled = "true";
-
-  //   let request =
-  //     "https://geo.api.gouv.fr/regions/" + regions.code + "/departements";
-
   document.querySelector("#communes").innerHTML = "";
   let promptCommunes = document.createElement("option");
   promptCommunes.textContent = "Choisissez une commune...";
   communesElem.appendChild(promptCommunes).disabled = "true";
 
   communeInformationsArea.value = "";
-
-  //   fetch(request)
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((datas) => {
-  //       for (let data of datas) {
-  //         let option = document.createElement("option");
-  //         option.textContent = data.nom;
-  //         option.value = data.code;
-  //         departmentsElem.appendChild(option);
-  //       }
-  //     });
 }
