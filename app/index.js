@@ -6,10 +6,11 @@ const API_GET_REGIONS = "https://geo.api.gouv.fr/regions";
 let regions = document.getElementById("regions");
 let departments = document.getElementById("departments");
 let communes = document.getElementById("communes");
-let communeInformations = document.getElementById("communeInformations");
+let communeInformationsArea = document.getElementById("communeInformations");
 
 //Affectation des callbacks aux signaux
 regions.addEventListener("change", (event) => {
+  region_initialize(regions, departments, communes, communeInformationsArea);
   let request =
     "https://geo.api.gouv.fr/regions/" + regions.value + "/departements";
 
@@ -28,8 +29,15 @@ regions.addEventListener("change", (event) => {
 });
 
 departments.addEventListener("change", (event) => {
+  department_initialize(
+    regions,
+    departments,
+    communes,
+    communeInformationsArea
+  );
   let request =
     "https://geo.api.gouv.fr/departements/" + departments.value + "/communes";
+  console.log(request);
 
   fetch(request)
     .then((res) => {
@@ -58,13 +66,18 @@ communes.addEventListener("change", (event) => {
       Population : ${datas.population}
       Code postal : ${datas.code}
       `;
-      communeInformations.value = datasToDisplay;
+      communeInformationsArea.value = datasToDisplay;
     });
 });
 
-on_region_changed(regions, departments, communes);
+region_initialize(regions, departments, communes, communeInformationsArea);
 
-function on_region_changed(regionsElem, departmentsElem, communesElem) {
+function region_initialize(
+  regionsElem,
+  departmentsElem,
+  communesElem,
+  communeInformationsAreaElem
+) {
   let promptRegions = document.createElement("option");
   promptRegions.textContent = "Choisissez une région...";
   regionsElem.appendChild(promptRegions);
@@ -79,6 +92,8 @@ function on_region_changed(regionsElem, departmentsElem, communesElem) {
   promptCommunes.textContent = "Choisissez une commune...";
   communesElem.appendChild(promptCommunes).disabled = "true";
 
+  communeInformationsArea.value = "";
+
   fetch(API_GET_REGIONS)
     .then((res) => {
       return res.json();
@@ -91,4 +106,39 @@ function on_region_changed(regionsElem, departmentsElem, communesElem) {
         regions.appendChild(option);
       }
     });
+}
+
+function department_initialize(
+  regionsElem,
+  departmentsElem,
+  communesElem,
+  communeInformationsAreaElem
+) {
+  //   document.querySelector("#departments").innerHTML = "";
+  //   let promptDepartments = document.createElement("option");
+  //   promptDepartments.textContent = "Choisissez un département...";
+  //   departmentsElem.appendChild(promptDepartments).disabled = "true";
+
+  //   let request =
+  //     "https://geo.api.gouv.fr/regions/" + regions.code + "/departements";
+
+  document.querySelector("#communes").innerHTML = "";
+  let promptCommunes = document.createElement("option");
+  promptCommunes.textContent = "Choisissez une commune...";
+  communesElem.appendChild(promptCommunes).disabled = "true";
+
+  communeInformationsArea.value = "";
+
+  //   fetch(request)
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((datas) => {
+  //       for (let data of datas) {
+  //         let option = document.createElement("option");
+  //         option.textContent = data.nom;
+  //         option.value = data.code;
+  //         departmentsElem.appendChild(option);
+  //       }
+  //     });
 }
